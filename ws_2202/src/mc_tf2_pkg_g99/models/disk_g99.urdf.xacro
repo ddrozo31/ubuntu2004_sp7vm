@@ -1,0 +1,65 @@
+<?xml version='1.0'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot_car">
+
+    <xacro:property name="blx" value="${10/10}" />
+    <xacro:property name="bly" value="${8/10}" />
+    <xacro:property name="blz" value="${5/10}" />
+
+    <xacro:property name="olx" value="${2.5/10}" />
+    <xacro:property name="oly" value="${(4+1.25/2)/10}" />
+    <xacro:property name="olz" value="${1.25/10}" />
+
+    <xacro:property name="crad" value="${5/10/2}" />
+    <xacro:property name="clen" value="${1.25/10}" />
+
+    <xacro:property name="srad" value="${2.5/10/2}" />
+    <xacro:property name="slx" value="${(10-2.5/2)/10}" />
+
+
+    <xacro:macro name="wheel_macro" params="p_name p_radius p_length">
+        <link name="${p_name}">
+            <!-- ... -->
+            <visual>
+                <geometry>
+                    <cylinder radius="${p_radius}" length="${p_length}"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="-${pi/2} 0 0"/>
+            </visual>
+
+            <inertial>
+            <!-- ... -->
+                <mass value="1"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+            </inertial>
+
+            <collision>
+            <!-- ... -->
+                <geometry>
+                    <cylinder radius="${p_radius}" length="${p_length}"/>
+                </geometry>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </collision>
+        </link>
+    </xacro:macro>
+
+    <!-- full body -->
+
+    <link name="base_link">
+        <!-- virtual link -->
+    </link>
+
+    <joint name="baselink_rwheellink" type="continuous">
+        <parent link="base_link"/>
+        <child link="rwheel_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+
+    <xacro:wheel_macro p_name = "rwheel_link" 
+                       p_radius = "${crad}" 
+                       p_length = "${clen}"/>
+
+     <!-- ####################### -->
+
+</robot>
